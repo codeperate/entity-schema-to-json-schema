@@ -32,7 +32,7 @@ const schema = {
 } satisfies JSONSchema;
 describe('entitySchemaBuilder fks functionality', () => {
   it('should pick the address property and convert it to a foreign key', () => {
-    const fksSchema = entitySchemaBuilder(schema, ['address']).FKs().schema;
+    const fksSchema = entitySchemaBuilder(schema, ['address']).fKs().schema;
     assert.deepStrictEqual(fksSchema, {
       type: 'object',
       properties: {
