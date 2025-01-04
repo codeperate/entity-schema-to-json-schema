@@ -1,4 +1,4 @@
-import { EntitySchemaMetadata } from '@mikro-orm/core';
+import { EntitySchema, EntitySchemaMetadata } from '@mikro-orm/core';
 import { JSONSchema } from 'json-schema-to-ts';
 
 export interface EntitySchemas<Entity, Base, Meta, Schema extends JSONSchema> {
@@ -12,6 +12,7 @@ export function defineEntitySchemas<Entity extends object, Base, Meta, Schema ex
 ) {
   return {
     meta,
+    entitySchema: new EntitySchema(meta),
     jsonSchema,
   } as EntitySchemas<Entity, Base, Meta, Schema>;
 }
