@@ -3,16 +3,6 @@ import { describe, it } from 'node:test';
 import { JSONSchema } from 'json-schema-to-ts';
 import { entitySchemaBuilder } from '../entity-schema-builder.js';
 
-// type User = {
-//   name: string;
-//   age: number;
-//   email: string;
-//   address: {
-//     street: string;
-//     city: string;
-//   };
-// };
-
 const schema = {
   type: 'object',
   properties: {
