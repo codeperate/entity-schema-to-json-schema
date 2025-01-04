@@ -34,7 +34,7 @@ export class Job {
   createdBy!: User;
 }
 
-export const JobEntitySchema = new EntitySchema<Job, BaseEntity>({
+export const JobEntitySchema = new EntitySchema({
   name: 'Job',
   class: Job,
   extends: BaseEntitySchema,
@@ -68,7 +68,7 @@ const JobSchemas = defineEntitySchemas(
       description: { type: 'string' },
       salary: { type: '' },
       createdBy: { kind: 'm:1', entity: () => User, inversedBy: () => User },
-      updatedBy: { kind: 'm:1', entity: () => User, inversedBy: () => User },
+      // updatedBy: { kind: 'm:1', entity: () => User, inversedBy: () => User },
     },
   },
   {
@@ -82,5 +82,5 @@ const JobSchemas = defineEntitySchemas(
   },
 );
 
-const a = use(JobSchemas).fKs().type;
+const a = use(JobSchemas).pick([]);
 type c = typeof a;
