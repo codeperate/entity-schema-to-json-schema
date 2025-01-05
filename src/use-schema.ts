@@ -4,7 +4,7 @@ import { EntitySchemaBuilder, entitySchemaBuilder } from './entity-schema-builde
 import { ReferenceKind } from '@mikro-orm/core';
 import { ExtractKindKeys } from './type.js';
 
-export const use = <Entity extends object, Base, Meta extends { properties? }, Schema extends JSONSchema>({
+export const useSchema = <Entity extends object, Base, Meta extends { properties? }, Schema extends JSONSchema>({
   jsonSchema,
   meta,
 }: EntitySchemas<Entity, Base, Meta, Schema>) => {
@@ -16,8 +16,8 @@ export const use = <Entity extends object, Base, Meta extends { properties? }, S
     )
     .filter(Boolean) as ExtractKindKeys<Meta>[];
   return entitySchemaBuilder(jsonSchema, foreignKeys) as unknown as EntitySchemaBuilder<
-    Entity,
     Schema,
+    Entity,
     ExtractKindKeys<Meta['properties']>
   >;
 };

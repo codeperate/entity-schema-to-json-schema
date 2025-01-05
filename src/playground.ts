@@ -2,7 +2,7 @@ import { BaseEntity as ORMBaseEntity } from '@mikro-orm/core';
 
 import { EntitySchema, ObjectId } from '@mikro-orm/mongodb';
 import { defineEntitySchemas } from './define-entity-schemas.js';
-import { use } from './use.js';
+import { use } from './use-schema.js';
 import { ExtractKindKeys } from './type.js';
 
 export class BaseEntity extends ORMBaseEntity {
@@ -27,11 +27,12 @@ export const BaseEntitySchema = new EntitySchema<BaseEntity>({
   },
 });
 
-export class Job {
+export class Job extends BaseEntity {
   title!: string;
   description!: string;
   salary!: number;
   createdBy!: User;
+  asd!: User;
 }
 
 export const JobEntitySchema = new EntitySchema({
@@ -39,6 +40,9 @@ export const JobEntitySchema = new EntitySchema({
   class: Job,
   extends: BaseEntitySchema,
   properties: {
+    asd: {
+      kind: '1:1',
+    },
     title: { type: 'string' },
     description: { type: 'string' },
     salary: { type: 'number' },
@@ -64,9 +68,13 @@ const JobSchemas = defineEntitySchemas(
     class: Job,
     extends: BaseEntitySchema,
     properties: {
-      title: { type: 'string' },
+      title: { type: 'string', kind: '1:1' },
       description: { type: 'string' },
-      salary: { type: '' },
+      salary: {
+        type: 'array',
+        kind: 'm:1',
+      },
+      updatedBy: { kind: '' },
       createdBy: { kind: 'm:1', entity: () => User, inversedBy: () => User },
       // updatedBy: { kind: 'm:1', entity: () => User, inversedBy: () => User },
     },
@@ -82,5 +90,4 @@ const JobSchemas = defineEntitySchemas(
   },
 );
 
-const a = use(JobSchemas).pick([]);
-type c = typeof a;
+const a = use(JobSchemas).fKs();

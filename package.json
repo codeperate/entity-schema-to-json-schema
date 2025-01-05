@@ -28,11 +28,11 @@
   },
   "homepage": "https://github.com/codeperate/entity-schema-to-json-schema#readme",
   "peerDependencies": {
-    "@codeperate/json-schema-builder": "^1.0.6",
+    "@codeperate/json-schema-builder": "^1.0.7",
     "@mikro-orm/core": "^6.4.2"
   },
   "devDependencies": {
-    "@codeperate/json-schema-builder": "^1.0.6",
+    "@codeperate/json-schema-builder": "^1.0.7",
     "@mikro-orm/core": "^6.4.2",
     "@mikro-orm/mongodb": "^6.4.2",
     "@sinclair/typebox": "^0.34.13",
