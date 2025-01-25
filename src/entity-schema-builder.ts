@@ -22,10 +22,19 @@ export const entitySchemaBuilder = <
   const builder = schemaBuilder<Schema, Type>(schema);
   const newBuilder = {
     ...builder,
-    clone: () => entitySchemaBuilder(schema, foreignKeys, baseProps),
-    noFKs: () => builder.omit(foreignKeys),
-    fKs: () => foreignKeys.reduce((b, key) => b.setPropsType(key as keyof Type, { type: 'string' }), builder),
-    noBPs: () => builder.omit(baseProps ?? []),
+    noFKs() {
+      return this.omit(foreignKeys);
+    },
+    fKs() {
+      foreignKeys.forEach((fk) => {
+        newBuilder.schema['properties'][fk] = { type: 'string' };
+      });
+      return this;
+    },
+    noBPs() {
+      if (baseProps && baseProps.length > 0) return this.omit(baseProps!);
+      return this;
+    },
   };
   return newBuilder as unknown as EntitySchemaBuilder<Schema, Type, FK, BP>;
 };

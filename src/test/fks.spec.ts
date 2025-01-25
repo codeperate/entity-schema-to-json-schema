@@ -34,23 +34,17 @@ const schema = {
 } satisfies JSONSchema;
 describe('entitySchemaBuilder fks functionality', () => {
   it('should pick the address property and convert it to a foreign key', () => {
-    const fksSchema = entitySchemaBuilder(schema, ['address'], ['id']).withType<User>().noBPs().schema;
-    assert.deepStrictEqual(fksSchema, {
+    const { schema: outputSchema } = entitySchemaBuilder(schema, ['address'], ['id']).withType<User>().noBPs().fKs().omit(['name']);
+    assert.deepStrictEqual(outputSchema, {
       type: 'object',
       properties: {
-        name: { type: 'string' },
         age: { type: 'integer' },
         email: { type: 'string' },
         address: {
-          type: 'object',
-          properties: {
-            street: { type: 'string' },
-            city: { type: 'string' },
-          },
-          required: ['street', 'city'],
+          type: 'string',
         },
       },
-      required: ['name', 'age', 'email', 'address'],
+      required: ['age', 'email', 'address'],
     });
   });
 });
