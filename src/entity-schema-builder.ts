@@ -27,9 +27,9 @@ export const entitySchemaBuilder = <
     },
     fKs() {
       foreignKeys.forEach((fk) => {
-        const type = this.schema['properties']?.[fk]?.type;
-        if (!type) throw new Error(`Foreign key ${String(fk)} not found in schema`);
-        else if (type === 'array')
+        const fkObj = this.schema['properties']?.[fk];
+        if (!fkObj) throw new Error(`Foreign key ${String(fk)} not found in schema`);
+        else if (fkObj?.type === 'array')
           this.schema['properties'][fk] = {
             type: 'array',
             items: { type: 'string' },
