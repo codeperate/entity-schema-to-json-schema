@@ -82,6 +82,12 @@ describe.only('entitySchemaBuilder fks functionality', () => {
           },
           required: ['street', 'city'],
         },
+        friends: {
+          type: 'array',
+          items: {
+            type: 'string',
+          },
+        },
       },
     });
   });
