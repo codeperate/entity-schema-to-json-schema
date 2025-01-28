@@ -1,5 +1,6 @@
 import { schemaBuilder, SchemaBuilder } from '@codeperate/json-schema-builder';
 import { JSONSchema } from 'json-schema-to-ts';
+import { builderConfig } from './builder-config.js';
 
 export interface EntitySchemaBuilder<Schema extends JSONSchema, Type extends object, FK extends keyof any, BP extends keyof any>
   extends SchemaBuilder<Schema, Type> {
@@ -32,9 +33,9 @@ export const entitySchemaBuilder = <
         else if (fkObj?.type === 'array')
           this.schema['properties'][fk] = {
             type: 'array',
-            items: { type: 'string' },
+            items: structuredClone(builderConfig.fksSchema),
           };
-        else this.schema['properties']![fk] = { type: 'string' };
+        else this.schema['properties']![fk] = structuredClone(builderConfig.fksSchema);
       });
       return this;
     },
