@@ -1,11 +1,17 @@
 import { schemaBuilder, SchemaBuilder } from '@codeperate/json-schema-builder';
 import { JSONSchema } from 'json-schema-to-ts';
 import { builderConfig } from './builder-config.js';
+import { Collection } from '@mikro-orm/core';
 
 export interface EntitySchemaBuilder<Schema extends JSONSchema, Type extends object, FK extends keyof any, BP extends keyof any>
   extends SchemaBuilder<Schema, Type> {
   noFKs(): EntitySchemaBuilder<Schema, Omit<Type, FK>, FK, BP>;
-  fKs(): EntitySchemaBuilder<Schema, Omit<Type, FK> & { [key in FK]: string }, FK, BP>;
+  fKs(): EntitySchemaBuilder<
+    Schema,
+    Omit<Type, FK> & { [key in FK]: key extends keyof Type ? (Type[key] extends Collection<any, any> ? string[] : string) : string },
+    FK,
+    BP
+  >;
   noBPs(): EntitySchemaBuilder<Schema, Omit<Type, BP>, FK, BP>;
   withType<T extends object>(type?: T): EntitySchemaBuilder<Schema, T, FK, BP>;
 }
